@@ -1,6 +1,4 @@
-var Preload = function (game) {
-  console.log("Preload");
-};
+var Preload = function (game) {};
 
 Preload.prototype = {
   init: function () {},

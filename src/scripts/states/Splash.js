@@ -1,6 +1,4 @@
-var Splash = function (game) {
-  console.log("Splash");
-};
+var Splash = function (game) {};
 
 Splash.prototype = {
   init: function () {},

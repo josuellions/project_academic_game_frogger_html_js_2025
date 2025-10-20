@@ -1,6 +1,4 @@
-var Boot = function (game) {
-  console.log("BOOT");
-};
+var Boot = function (game) {};
 
 Boot.prototype = {
   init: function () {

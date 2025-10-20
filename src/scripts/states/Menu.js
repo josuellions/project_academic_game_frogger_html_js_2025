@@ -1,6 +1,4 @@
-var Menu = function (game) {
-  console.log("Menu");
-};
+var Menu = function (game) {};
 
 Menu.prototype = {
   init: function () {},
