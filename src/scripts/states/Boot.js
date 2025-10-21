@@ -20,5 +20,6 @@ Boot.prototype = {
     this.game.state.add("Splash", Splash);
 
     this.game.state.start("Splash");
+    //this.game.state.start("Play");
   },
 };
