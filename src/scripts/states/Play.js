@@ -8,6 +8,10 @@ Play.prototype = {
     this.criarTesouro();
     this.criarArbustos();
     this.criarJogador();
+    this.criarVeiculos();
+  },
+  update: function () {
+    this.atualizarVeiculos();
   },
   criarCenario: function () {
     this.game.stage.backgroundColor = "#82bb65";
@@ -88,5 +92,56 @@ Play.prototype = {
     this.jogador.body.collideWorldBounds = true;
 
     this.jogador.animations.play("paraBaixo", 7, true);
+  },
+  criarVeiculos: function () {
+    this.veiculos = this.game.add.group();
+
+    this.game.physics.arcade.enable(this.veiculos);
+    this.veiculos.enableBody = true;
+
+    var tipoVeiculo = ["pickup_marrom", "caminhonete_marrom"];
+    var direcoes = ["Direita", "Esquerda"];
+
+    for (var i = 0; i < this.pistas.length - 1; i++) {
+      var tipo =
+        tipoVeiculo[this.game.rnd.integerInRange(0, tipoVeiculo.length - 1)];
+
+      var veiculo = this.veiculos.create(32, this.pistas[i] - 16, tipo);
+
+      if (tipo === "pickup_marrom") {
+        veiculo.body.setSize(105, 43, 0, 19);
+      } else {
+        veiculo.body.setSize(130, 43, 2, 19);
+      }
+
+      veiculo.animations.add("irDireita", [0, 1]);
+      veiculo.animations.add("irEsquerda", [2, 3]);
+
+      veiculo.direcao =
+        direcoes[this.game.rnd.integerInRange(0, direcoes.length - 1)];
+
+      if (veiculo.direcao === "Direita") {
+        veiculo.body.velocity.x = this.game.rnd.integerInRange(80, 150);
+      } else {
+        veiculo.body.velocity.x = -this.game.rnd.integerInRange(80, 150);
+      }
+
+      veiculo.animations.play(
+        "ir" + veiculo.direcao,
+        this.game.rnd.integerInRange(4, 7),
+        true
+      );
+    }
+  },
+  atualizarVeiculos: function () {
+    this.veiculos.forEach(function (veiculo) {
+      if (veiculo.direcao === "Direita" && veiculo.x > this.game.width) {
+        veiculo.x = -veiculo.width;
+        veiculo.body.velocity.x = this.game.rnd.integerInRange(80, 150);
+      } else if (veiculo.direcao === "Esquerda" && veiculo.x < -veiculo.width) {
+        veiculo.x = this.game.width;
+        veiculo.body.velocity.x = -this.game.rnd.integerInRange(80, 150);
+      }
+    }, this);
   },
 };
