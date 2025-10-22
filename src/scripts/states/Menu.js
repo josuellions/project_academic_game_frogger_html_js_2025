@@ -29,6 +29,17 @@ Menu.prototype = {
       1
     );
     this.buttonPlay.anchor.setTo(0.5, 0.5);
+
+    var style = { font: "bold 20px Arial", fill: "#fff" };
+
+    var text = this.game.add.text(
+      10,
+      this.game.world.height - 30,
+      "© 2016 - Xyz Games",
+      style
+    );
+
+    text.setShadow(3, 3, "rgba(0,0,0,0.5)", 2);
   },
   update: function () {},
   actionButtonPlay: function () {
