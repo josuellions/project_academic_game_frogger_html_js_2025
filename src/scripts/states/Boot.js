@@ -18,6 +18,8 @@ Boot.prototype = {
     this.game.state.add("Menu", Menu);
     this.game.state.add("Preload", Preload);
     this.game.state.add("Splash", Splash);
+    this.game.state.add("Score", Score);
+    this.game.state.add("GameOver", GameOver);
 
     this.game.state.start("Splash");
     //this.game.state.start("Play");
