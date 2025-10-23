@@ -1,6 +1,13 @@
 var Play = function (game) {};
 
 Play.prototype = {
+  init: function (pontos) {
+    this.pontos = pontos != null && pontos != undefined ? pontos : 0;
+    var estilo = { font: "bold 20px Arial", fill: "#fff" };
+    var texto = this.game.add.text(8, 8, this.pontos + " Pontos", estilo);
+
+    texto.setShadow(1, 1, "rgba(0.0.0.0.5", 2);
+  },
   create: function () {
     this.game.physics.startSystem(Phaser.Physics.ARCADE);
 
@@ -15,7 +22,7 @@ Play.prototype = {
     this.botaoAtivo = "";
   },
   update: function () {
-    //colisão
+    //Colisão com elementos
     this.game.physics.arcade.overlap(
       this.jogador,
       this.veiculos,
@@ -262,10 +269,11 @@ Play.prototype = {
     }
 
     // setTimeout(function () {
-    this.game.state.start("GameOver");
+    this.game.state.start("GameOver", true, false, this.pontos);
     // }, 1000);
   },
   colideComTesouro: function () {
-    this.game.state.start("Score");
+    this.pontos++;
+    this.game.state.start("Score", true, false, this.pontos);
   },
 };
