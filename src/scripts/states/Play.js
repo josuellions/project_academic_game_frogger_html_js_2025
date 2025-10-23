@@ -9,9 +9,14 @@ Play.prototype = {
     this.criarArbustos();
     this.criarJogador();
     this.criarVeiculos();
+    this.criarBotoes();
+
+    this.teclado = this.game.input.keyboard.createCursorKeys();
+    this.botaoAtivo = "";
   },
   update: function () {
     this.atualizarVeiculos();
+    this.verificarTecla();
   },
   criarCenario: function () {
     this.game.stage.backgroundColor = "#82bb65";
@@ -143,5 +148,94 @@ Play.prototype = {
         veiculo.body.velocity.x = -this.game.rnd.integerInRange(80, 150);
       }
     }, this);
+  },
+  criarBotoes: function () {
+    var botao_esquerda = this.game.add.button(
+      0,
+      this.game.height - 64,
+      "botoes_jogo",
+      null,
+      this,
+      4,
+      0,
+      4
+    );
+
+    botao_esquerda.name = "esquerda";
+    botao_esquerda.events.onInputDown.add(this.botaoPressionado, this);
+    botao_esquerda.events.onInputUp.add(this.botaoSolto, this);
+
+    var botao_direita = this.game.add.button(
+      68,
+      this.game.height - 64,
+      "botoes_jogo",
+      null,
+      this,
+      5,
+      1,
+      5
+    );
+
+    botao_direita.name = "direita";
+    botao_direita.events.onInputDown.add(this.botaoPressionado, this);
+    botao_direita.events.onInputUp.add(this.botaoSolto, this);
+
+    var botao_cima = this.game.add.button(
+      this.game.width - 128,
+      this.game.height - 64,
+      "botoes_jogo",
+      null,
+      this,
+      6,
+      2,
+      6
+    );
+
+    botao_cima.name = "cima";
+    botao_cima.events.onInputDown.add(this.botaoPressionado, this);
+    botao_cima.events.onInputUp.add(this.botaoSolto, this);
+
+    var botao_baixo = this.game.add.button(
+      this.game.width - 60,
+      this.game.height - 64,
+      "botoes_jogo",
+      null,
+      this,
+      7,
+      3,
+      7
+    );
+
+    botao_baixo.name = "baixo";
+    botao_baixo.events.onInputDown.add(this.botaoPressionado, this);
+    botao_baixo.events.onInputUp.add(this.botaoSolto, this);
+  },
+  botaoPressionado: function (botao) {
+    this.botaoAtivo = botao.name;
+  },
+  botaoSolto: function () {
+    this.botaoAtivo = "";
+  },
+  verificarTecla: function () {
+    if (this.teclado.left.isDown || this.botaoAtivo == "esquerda") {
+      this.jogador.body.velocity.x = -80;
+      this.jogador.body.velocity.y = 0;
+      this.jogador.animations.play("paraEsquerda", 7, true);
+    } else if (this.teclado.left.isDown || this.botaoAtivo == "direita") {
+      this.jogador.body.velocity.x = 80;
+      this.jogador.body.velocity.y = 0;
+      this.jogador.animations.play("paraDireita", 7, true);
+    } else if (this.teclado.left.isDown || this.botaoAtivo == "cima") {
+      this.jogador.body.velocity.x = 0;
+      this.jogador.body.velocity.y = -80;
+      this.jogador.animations.play("paraCima", 7, true);
+    } else if (this.teclado.left.isDown || this.botaoAtivo == "baixo") {
+      this.jogador.body.velocity.x = 0;
+      this.jogador.body.velocity.y = 80;
+      this.jogador.animations.play("paraBaixo", 7, true);
+    } else {
+      this.jogador.body.velocity.x = 0;
+      this.jogador.body.velocity.y = 0;
+    }
   },
 };
