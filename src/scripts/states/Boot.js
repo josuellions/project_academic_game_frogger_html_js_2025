@@ -5,7 +5,7 @@ Boot.prototype = {
     this.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
     this.scale.pageAlignHorizontally = true;
     this.scale.pageAlignVertically = true;
-    this.scale.forceOrientation(true, false);
+    //this.scale.forceOrientation(true, false);
     //this.scale.forceOrientation(false, true);
     this.scale.updateLayout(true);
     this.scale.refresh();

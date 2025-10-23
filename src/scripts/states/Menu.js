@@ -40,6 +40,10 @@ Menu.prototype = {
     );
 
     text.setShadow(3, 3, "rgba(0,0,0,0.5)", 2);
+
+    var musica = this.game.add.audio("musica");
+    musica.loop = true;
+    musica.play();
   },
   update: function () {},
   actionButtonPlay: function () {
