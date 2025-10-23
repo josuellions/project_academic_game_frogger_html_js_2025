@@ -268,12 +268,19 @@ Play.prototype = {
       window.navigator.vibrate(200);
     }
 
-    // setTimeout(function () {
-    this.game.state.start("GameOver", true, false, this.pontos);
-    // }, 1000);
+    var som = this.game.add.audio("fimjogo");
+    som.play();
+
+    setTimeout(function () {
+      game.state.start("GameOver", true, false, this.pontos);
+    }, 1000);
   },
   colideComTesouro: function () {
     this.pontos++;
+
+    var som = this.game.add.audio("pontuou");
+    som.play();
+
     this.game.state.start("Score", true, false, this.pontos);
   },
 };
