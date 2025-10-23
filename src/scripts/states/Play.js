@@ -23,13 +23,13 @@ Play.prototype = {
   },
   update: function () {
     //Colisão com elementos
-    // this.game.physics.arcade.overlap(
-    //   this.jogador,
-    //   this.veiculos,
-    //   this.colideComVeiculos,
-    //   null,
-    //   this
-    // );
+    this.game.physics.arcade.overlap(
+      this.jogador,
+      this.veiculos,
+      this.colideComVeiculos,
+      null,
+      this
+    );
     this.game.physics.arcade.collide(this.jogador, this.arbustos);
 
     this.game.physics.arcade.overlap(
@@ -271,9 +271,9 @@ Play.prototype = {
     var som = this.game.add.audio("fimjogo");
     som.play();
 
-    setTimeout(function () {
-      this.game.state.start("GameOver", true, false, this.pontos);
-    }, 1000);
+    //setTimeout(function () {
+    this.game.state.start("GameOver", true, false, this.pontos);
+    //}, 1000);
   },
   colideComTesouro: function () {
     this.pontos++;

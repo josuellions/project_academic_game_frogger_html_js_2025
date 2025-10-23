@@ -22,6 +22,6 @@ Boot.prototype = {
     this.game.state.add("GameOver", GameOver);
 
     this.game.state.start("Splash");
-    //this.game.state.start("Score");
+    //this.game.state.start("GameOver");
   },
 };
