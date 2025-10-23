@@ -15,6 +15,24 @@ Play.prototype = {
     this.botaoAtivo = "";
   },
   update: function () {
+    //colisão
+    this.game.physics.arcade.overlap(
+      this.jogador,
+      this.veiculos,
+      this.colideComVeiculos,
+      null,
+      this
+    );
+    this.game.physics.arcade.collide(this.jogador, this.arbustos);
+
+    this.game.physics.arcade.overlap(
+      this.jogador,
+      this.tesouro,
+      this.colideComTesouro,
+      null,
+      this
+    );
+
     this.atualizarVeiculos();
     this.verificarTecla();
   },
@@ -237,5 +255,17 @@ Play.prototype = {
       this.jogador.body.velocity.x = 0;
       this.jogador.body.velocity.y = 0;
     }
+  },
+  colideComVeiculos: function () {
+    if ("vibrate" in window.navigator) {
+      window.navigator.vibrate(200);
+    }
+
+    // setTimeout(function () {
+    this.game.state.start("GameOver");
+    // }, 1000);
+  },
+  colideComTesouro: function () {
+    this.game.state.start("Score");
   },
 };
