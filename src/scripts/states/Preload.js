@@ -29,59 +29,57 @@ Preload.prototype = {
       64
     );
 
-    this.game.load.image("arbusto", "./src/assets/img/arbusto.png");
-    this.game.load.image("bueiro", "./src/assets/img/bueiro.png");
-    this.game.load.image("tesouro", "./src/assets/img/tesouro.png");
+    this.game.load.image("arbusto", "./src/assets/img/bushes.png");
+    this.game.load.image("bueiro", "./src/assets/img/manhole.png");
+    this.game.load.image("tesouro", "./src/assets/img/treasure.png");
 
-    this.game.load.spritesheet(
-      "estrada",
-      "./src/assets/img/estrada.png",
-      32,
-      64
-    );
+    this.game.load.spritesheet("estrada", "./src/assets/img/road.png", 32, 64);
     this.game.load.spritesheet(
       "jogador",
-      "./src/assets/img/jogador.png",
+      "./src/assets/img/player.png",
       32,
       48
     );
     this.game.load.spritesheet(
       "botoes_jogo",
-      "./src/assets/img/botoes_jogo.png",
+      "./src/assets/img/game_buttons.png",
       64,
       64
     );
     this.game.load.spritesheet(
       "caminhonete_marrom",
-      "./src/assets/img/caminhonete_marrom.png",
+      "./src/assets/img/brown pickup_trunk.png",
       134,
       70
     );
     this.game.load.spritesheet(
       "pickup_marrom",
-      "./src/assets/img/pickup_marrom.png",
+      "./src/assets/img/brown_pickup_vehicle.png",
       105,
       70
     );
 
     this.game.load.image("score", "./src/assets/img/score.png");
-    this.game.load.image("fundo_score", "./src/assets/img/fundo_score.png");
-    this.game.load.image("gameover", "./src/assets/img/gameover.png");
     this.game.load.image(
-      "fundo_gameover",
-      "./src/assets/img/fundo_gameover.png"
+      "fundo_score",
+      "./src/assets/img/background_score.png"
+    );
+    this.game.load.image("game_over", "./src/assets/img/game_over.png");
+    this.game.load.image(
+      "background_game_over",
+      "./src/assets/img/background_game_over.png"
     );
     this.game.load.audio("musica", [
-      "./src/assets/img/musica.ogg",
-      "./src/assets/img/musica.mp3",
+      "./src/assets/audio/game_music.ogg",
+      "./src/assets/audio/game_music.mp3",
     ]);
     this.game.load.audio("pontuou", [
-      "./src/assets/img/pontuou.ogg",
-      "./src/assets/img/pontuou.mp3",
+      "./src/assets/audio/game_points.ogg",
+      "./src/assets/audio/game_points.mp3",
     ]);
     this.game.load.audio("fimjogo", [
-      "./src/assets/img/fimjogo.ogg",
-      "./src/assets/img/fimjogo.mp3",
+      "./src/assets/audio/end_game.ogg",
+      "./src/assets/audio/end_game.mp3",
     ]);
   },
 };

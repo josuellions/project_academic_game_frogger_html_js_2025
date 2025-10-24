@@ -3,11 +3,11 @@ var Splash = function (game) {};
 Splash.prototype = {
   init: function () {},
   preload: function () {
-    this.load.image("logoSplash", "./src/assets/img/logotipo_empresa.png");
+    this.load.image("logoSplash", "./src/assets/img/company_type_logo.png");
 
-    this.load.image("logoGame", "./src/assets/img/logotipo_jogo.png");
-    this.load.image("barLoading", "./src/assets/img/barra_loading.png");
-    this.load.image("backgroundMenu", "./src/assets/img/fundo_menu.png");
+    this.load.image("logoGame", "./src/assets/img/game_type_logo.png");
+    this.load.image("barLoading", "./src/assets/img/bar_loading.png");
+    this.load.image("backgroundMenu", "./src/assets/img/background_menu.png");
   },
   create: function () {
     this.game.stage.backgroundColor = "#fff";
