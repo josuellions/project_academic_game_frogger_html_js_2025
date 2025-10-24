@@ -10,11 +10,15 @@ GameOver.prototype = {
     this.fundo = this.game.add.image(
       this.game.world.centerX,
       this.game.world.height,
-      "fundo_gameover"
+      "background_game_over"
     );
     this.fundo.anchor.setTo(0.5, 1);
 
-    this.titulo = this.game.add.sprite(this.game.world.centerX, 30, "gameover");
+    this.titulo = this.game.add.sprite(
+      this.game.world.centerX,
+      30,
+      "game_over"
+    );
     this.titulo.anchor.setTo(0.5, 0);
 
     this.botao_continuar = this.game.add.button(
