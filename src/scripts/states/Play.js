@@ -182,9 +182,10 @@ Play.prototype = {
     }, this);
   },
   createButtons: function () {
+    const height = 78;
     var buttonLeft = this.game.add.button(
-      0,
-      this.game.height - 64,
+      4,
+      this.game.height - height,
       "buttonsGame",
       null,
       this,
@@ -198,8 +199,8 @@ Play.prototype = {
     buttonLeft.events.onInputUp.add(this.buttonLoose, this);
 
     var buttonRight = this.game.add.button(
-      68,
-      this.game.height - 64,
+      78,
+      this.game.height - height,
       "buttonsGame",
       null,
       this,
@@ -213,8 +214,8 @@ Play.prototype = {
     buttonRight.events.onInputUp.add(this.buttonLoose, this);
 
     var buttonUp = this.game.add.button(
-      this.game.width - 128,
-      this.game.height - 64,
+      this.game.width - 138,
+      this.game.height - height,
       "buttonsGame",
       null,
       this,
@@ -228,8 +229,8 @@ Play.prototype = {
     buttonUp.events.onInputUp.add(this.buttonLoose, this);
 
     var buttonDown = this.game.add.button(
-      this.game.width - 60,
-      this.game.height - 64,
+      this.game.width - 62,
+      this.game.height - height,
       "buttonsGame",
       null,
       this,

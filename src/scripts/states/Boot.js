@@ -16,10 +16,10 @@ Boot.prototype = {
 
     // Tratativas para dispositivos IOs
     // Fallback para iOS travando o loop
-    if (Phaser.Device.iOS) {
-      this.game.forceSingleUpdate = true;
-      setInterval(() => this.game.update(), 1000 / 30);
-    }
+    // if (Phaser.Device.iOS) {
+    //   this.game.forceSingleUpdate = true;
+    //   setInterval(() => this.game.update(), 1000 / 30);
+    // }
 
     this.input.maxPointers = 1;
     this.input.addPointer();
