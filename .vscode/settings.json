@@ -1,5 +1,8 @@
 {
   "liveServer.settings.CustomBrowser": "chrome",
   "liveServer.settings.NoBrowser": true,
-  "liveServer.settings.fullReload": false
+  "liveServer.settings.fullReload": false,
+  "cSpell.words": [
+    "spritesheet"
+  ]
 }

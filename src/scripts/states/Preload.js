@@ -29,31 +29,26 @@ Preload.prototype = {
       64
     );
 
-    this.game.load.image("arbusto", "./src/assets/img/bushes.png");
-    this.game.load.image("bueiro", "./src/assets/img/manhole.png");
-    this.game.load.image("tesouro", "./src/assets/img/treasure.png");
+    this.game.load.image("bush", "./src/assets/img/bushes.png");
+    this.game.load.image("manhole", "./src/assets/img/manhole.png");
+    this.game.load.image("treasure", "./src/assets/img/treasure.png");
 
-    this.game.load.spritesheet("estrada", "./src/assets/img/road.png", 32, 64);
+    this.game.load.spritesheet("road", "./src/assets/img/road.png", 32, 64);
+    this.game.load.spritesheet("player", "./src/assets/img/player.png", 32, 48);
     this.game.load.spritesheet(
-      "jogador",
-      "./src/assets/img/player.png",
-      32,
-      48
-    );
-    this.game.load.spritesheet(
-      "botoes_jogo",
+      "buttonsGame",
       "./src/assets/img/game_buttons.png",
       64,
       64
     );
     this.game.load.spritesheet(
-      "caminhonete_marrom",
+      "brownPickupTruck",
       "./src/assets/img/brown pickup_trunk.png",
       134,
       70
     );
     this.game.load.spritesheet(
-      "pickup_marrom",
+      "brownPickupVehicle",
       "./src/assets/img/brown_pickup_vehicle.png",
       105,
       70
@@ -61,25 +56,25 @@ Preload.prototype = {
 
     this.game.load.image("score", "./src/assets/img/score.png");
     this.game.load.image(
-      "fundo_score",
+      "backgroundScore",
       "./src/assets/img/background_score.png"
     );
-    this.game.load.image("game_over", "./src/assets/img/game_over.png");
+    this.game.load.image("gameOver", "./src/assets/img/game_over.png");
     this.game.load.image(
-      "background_game_over",
+      "backgroundGameOver",
       "./src/assets/img/background_game_over.png"
     );
-    this.game.load.audio("musica", [
+    this.game.load.audio("gameMusic", [
       "./src/assets/audio/game_music.ogg",
       "./src/assets/audio/game_music.mp3",
     ]);
-    this.game.load.audio("pontuou", [
+    this.game.load.audio("gamePoints", [
       "./src/assets/audio/game_points.ogg",
       "./src/assets/audio/game_points.mp3",
     ]);
-    this.game.load.audio("fimjogo", [
-      "./src/assets/audio/end_game.ogg",
-      "./src/assets/audio/end_game.mp3",
+    this.game.load.audio("gameEnd", [
+      "./src/assets/audio/game_end.ogg",
+      "./src/assets/audio/game_end.mp3",
     ]);
   },
 };
