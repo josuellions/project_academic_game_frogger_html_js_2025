@@ -35,7 +35,7 @@ Menu.prototype = {
     var text = this.game.add.text(
       10,
       this.game.world.height - 36,
-      "© 2016 - Xyz Games | v0.0.3",
+      "© 2016 - Xyz Games | v0.0.5",
       style
     );
 
