@@ -4,7 +4,7 @@ Play.prototype = {
   init: function (points) {
     this.points = points != null && points != undefined ? points : 0;
     var estilo = { font: "bold 20px Arial", fill: "#fff" };
-    var texto = this.game.add.text(8, 8, this.points + " points", estilo);
+    var texto = this.game.add.text(8, 8, this.points + " ponto(s)", estilo);
 
     texto.setShadow(1, 1, "rgba(0.0.0.0.5", 2);
   },
@@ -192,7 +192,7 @@ Play.prototype = {
       4
     );
 
-    buttonLeft.name = "left";
+    buttonLeft.name = "Left";
     buttonLeft.events.onInputDown.add(this.buttonPressed, this);
     buttonLeft.events.onInputUp.add(this.buttonLoose, this);
 
@@ -207,7 +207,7 @@ Play.prototype = {
       5
     );
 
-    buttonRight.name = "right";
+    buttonRight.name = "Right";
     buttonRight.events.onInputDown.add(this.buttonPressed, this);
     buttonRight.events.onInputUp.add(this.buttonLoose, this);
 
@@ -222,7 +222,7 @@ Play.prototype = {
       6
     );
 
-    buttonUp.name = "up";
+    buttonUp.name = "Up";
     buttonUp.events.onInputDown.add(this.buttonPressed, this);
     buttonUp.events.onInputUp.add(this.buttonLoose, this);
 
@@ -237,7 +237,7 @@ Play.prototype = {
       7
     );
 
-    buttonDown.name = "down";
+    buttonDown.name = "Down";
     buttonDown.events.onInputDown.add(this.buttonPressed, this);
     buttonDown.events.onInputUp.add(this.buttonLoose, this);
   },
@@ -248,26 +248,39 @@ Play.prototype = {
     this.buttonActive = "";
   },
   checkKey: function () {
-    if (this.keyboard.left.isDown || this.buttonActive == "left") {
-      this.player.body.velocity.x = -80;
-      this.player.body.velocity.y = 0;
-      this.player.animations.play("left", 7, true);
-    } else if (this.keyboard.left.isDown || this.buttonActive == "right") {
-      this.player.body.velocity.x = 80;
-      this.player.body.velocity.y = 0;
-      this.player.animations.play("right", 7, true);
-    } else if (this.keyboard.left.isDown || this.buttonActive == "up") {
-      this.player.body.velocity.x = 0;
-      this.player.body.velocity.y = -80;
-      this.player.animations.play("up", 7, true);
-    } else if (this.keyboard.left.isDown || this.buttonActive == "down") {
-      this.player.body.velocity.x = 0;
-      this.player.body.velocity.y = 80;
-      this.player.animations.play("down", 7, true);
-    } else {
-      this.player.body.velocity.x = 0;
-      this.player.body.velocity.y = 0;
-    }
+    const keys = ["up", "down", "left", "right"];
+    var movePlayer = {
+      default: {
+        velocityX: 0,
+        velocityY: 0,
+      },
+      left: {
+        velocityX: -80,
+        velocityY: 0,
+      },
+      right: {
+        velocityX: 80,
+        velocityY: 0,
+      },
+      down: {
+        velocityX: 0,
+        velocityY: 80,
+      },
+      up: {
+        velocityX: 0,
+        velocityY: -80,
+      },
+    };
+
+    const actionKeyboard = keys.find((key) => this.keyboard[key].isDown);
+
+    const pressKeyMove = actionKeyboard || this.buttonActive || "default";
+
+    const move = movePlayer[pressKeyMove.toLowerCase()];
+
+    this.player.animations.play(pressKeyMove.toLowerCase(), 7, true);
+    this.player.body.velocity.x = move.velocityX;
+    this.player.body.velocity.y = move.velocityY;
   },
   collidesWithVehicle: function () {
     if ("vibrate" in window.navigator) {

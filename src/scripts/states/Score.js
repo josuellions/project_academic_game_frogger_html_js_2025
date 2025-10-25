@@ -39,7 +39,7 @@ Score.prototype = {
     var texto = this.game.add.text(
       0,
       this.game.world.centerY,
-      this.pontos + " Pontos!",
+      this.pontos + " Ponto(s)!",
       estilo
     );
 

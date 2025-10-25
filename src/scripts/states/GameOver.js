@@ -40,7 +40,7 @@ GameOver.prototype = {
     var text = this.game.add.text(
       0,
       this.game.world.centerY,
-      this.points + " points!",
+      this.points + " ponto(s)!",
       style
     );
 
