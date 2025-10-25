@@ -36,15 +36,16 @@ Score.prototype = {
       boundsAlignV: "middle",
     };
 
+    var textPoints = this.points > 1 ? " pontos!" : " ponto!";
     var texto = this.game.add.text(
       0,
       this.game.world.centerY,
-      this.pontos + " Ponto(s)!",
+      this.pontos + textPoints,
       estilo
     );
 
     texto.setShadow(3, 3, "rgba(0,0,0,0.5)", 2);
-    texto.setTextBounds(0, 0, 320, 10);
+    texto.setTextBounds(0, 0, 410, 10);
     //texto.setTextBounds(0, this.game.world.centerY, this.game.world.width, 50);
     //texto.anchor.setTo(-0.7, 6);
   },

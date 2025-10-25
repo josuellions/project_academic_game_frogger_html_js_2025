@@ -4,7 +4,8 @@ Play.prototype = {
   init: function (points) {
     this.points = points != null && points != undefined ? points : 0;
     var estilo = { font: "bold 20px Arial", fill: "#fff" };
-    var texto = this.game.add.text(8, 8, this.points + " ponto(s)", estilo);
+    var textPoints = this.points > 1 ? " pontos" : " ponto";
+    var texto = this.game.add.text(8, 8, this.points + textPoints, estilo);
 
     texto.setShadow(1, 1, "rgba(0.0.0.0.5", 2);
   },
@@ -291,7 +292,9 @@ Play.prototype = {
     sound.play();
 
     //setTimeout(function () {
-    this.game.state.start("GameOver", true, false, this.points);
+    this.time.events.add(Phaser.Timer.SECOND * 1, () => {
+      this.game.state.start("GameOver", true, false, this.points);
+    });
     //}, 1000);
   },
   collidesWithTreasury: function () {

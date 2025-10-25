@@ -37,15 +37,17 @@ GameOver.prototype = {
       boundsAlignV: "middle",
     };
 
+    var textPoints = this.points > 1 ? " pontos!" : " ponto!";
+
     var text = this.game.add.text(
       0,
       this.game.world.centerY,
-      this.points + " ponto(s)!",
+      this.points + textPoints,
       style
     );
 
     text.setShadow(3, 3, "rgba(0,0,0,0.5)", 2);
-    text.setTextBounds(0, 0, 320, 10);
+    text.setTextBounds(0, 0, 410, 10);
     //text.setTextBounds(0, this.game.world.centerY, this.game.world.width, 50);
     //text.anchor.setTo(-0.7, 6);
   },
