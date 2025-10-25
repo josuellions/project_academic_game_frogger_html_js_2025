@@ -10,6 +10,9 @@ Boot.prototype = {
     this.scale.updateLayout(true);
     this.scale.refresh();
 
+    document.body.style.overflow = "hidden";
+    document.documentElement.style.overflow = "hidden";
+
     this.input.maxPointers = 1;
     this.input.addPointer();
   },
