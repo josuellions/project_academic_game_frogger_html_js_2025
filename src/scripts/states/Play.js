@@ -285,22 +285,22 @@ Play.prototype = {
     this.player.body.velocity.y = move.velocityY;
   },
   collidesWithVehicle: function () {
-    if ("vibrate" in window.navigator) {
-      window.navigator.vibrate(200);
-    }
+    // if ("vibrate" in window.navigator) {
+    //   window.navigator.vibrate(200);
+    // }
 
     var sound = this.game.add.audio("gameEnd");
     sound.play();
 
     //setTimeout(function () {
-    // var evt = this.time.events.add(
-    //   Phaser.Timer.SECOND * 0.5,
-    //   function () {
-    this.game.state.start("GameOver", true, false, this.points);
-    //this.time.events.remove(evt); // remove manualmente
-    //   },
-    //   this
-    // );
+    var evt = this.time.events.add(
+      Phaser.Timer.SECOND * 0.5,
+      function () {
+        this.game.state.start("GameOver", true, false, this.points);
+        this.time.events.remove(evt); // remove manualmente
+      },
+      this
+    );
     //}, 1000);
   },
   collidesWithTreasury: function () {
