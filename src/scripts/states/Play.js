@@ -293,14 +293,14 @@ Play.prototype = {
     sound.play();
 
     //setTimeout(function () {
-    var evt = this.time.events.add(
-      Phaser.Timer.SECOND * 0.5,
-      function () {
-        this.game.state.start("GameOver", true, false, this.points);
-        this.time.events.remove(evt); // remove manualmente
-      },
-      this
-    );
+    // var evt = this.time.events.add(
+    //   Phaser.Timer.SECOND * 0.5,
+    //   function () {
+    this.game.state.start("GameOver", true, false, this.points);
+    //this.time.events.remove(evt); // remove manualmente
+    //   },
+    //   this
+    // );
     //}, 1000);
   },
   collidesWithTreasury: function () {
