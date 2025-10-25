@@ -21,14 +21,6 @@ Boot.prototype = {
       setInterval(() => this.game.update(), 1000 / 30);
     }
 
-    // Listener pra quando o Safari pausa o jogo
-    document.addEventListener("visibilitychange", function () {
-      if (!document.hidden) {
-        self.game.paused = false;
-      }
-    });
-    // End
-
     this.input.maxPointers = 1;
     this.input.addPointer();
   },
