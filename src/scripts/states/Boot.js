@@ -21,19 +21,6 @@ Boot.prototype = {
       setInterval(() => this.game.update(), 1000 / 30);
     }
 
-    // Desbloquear áudio no primeiro toque (iOS Safari)
-    const self = this;
-    function unlockAudio() {
-      if (self.game.sound.context.state === "suspended") {
-        self.game.sound.context.resume();
-        console.log("🎵 Áudio desbloqueado!");
-      }
-      window.removeEventListener("touchstart", unlockAudio, true);
-      window.removeEventListener("mousedown", unlockAudio, true);
-    }
-    window.addEventListener("touchstart", unlockAudio, true);
-    window.addEventListener("mousedown", unlockAudio, true);
-
     // Listener pra quando o Safari pausa o jogo
     document.addEventListener("visibilitychange", function () {
       if (!document.hidden) {
