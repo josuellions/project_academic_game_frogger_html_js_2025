@@ -9,7 +9,7 @@ Score.prototype = {
     this.fundo = this.game.add.image(
       this.game.world.centerX,
       this.game.world.height,
-      "fundo_score"
+      "backgroundScore"
     );
     this.fundo.anchor.setTo(0.5, 1);
 

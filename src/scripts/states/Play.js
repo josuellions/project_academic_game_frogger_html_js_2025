@@ -1,103 +1,109 @@
 var Play = function (game) {};
 
 Play.prototype = {
-  init: function (pontos) {
-    this.pontos = pontos != null && pontos != undefined ? pontos : 0;
+  init: function (points) {
+    this.points = points != null && points != undefined ? points : 0;
     var estilo = { font: "bold 20px Arial", fill: "#fff" };
-    var texto = this.game.add.text(8, 8, this.pontos + " Pontos", estilo);
+    var texto = this.game.add.text(8, 8, this.points + " points", estilo);
 
     texto.setShadow(1, 1, "rgba(0.0.0.0.5", 2);
   },
   create: function () {
     this.game.physics.startSystem(Phaser.Physics.ARCADE);
 
-    this.criarCenario();
-    this.criarTesouro();
-    this.criarArbustos();
-    this.criarJogador();
-    this.criarVeiculos();
-    this.criarBotoes();
+    this.createScene();
+    this.createTreasury();
+    this.createBushes();
+    this.createPlayer();
+    this.createVehicle();
+    this.createButtons();
 
-    this.teclado = this.game.input.keyboard.createCursorKeys();
-    this.botaoAtivo = "";
+    this.keyboard = this.game.input.keyboard.createCursorKeys();
+    this.buttonActive = "";
   },
   update: function () {
     //Colisão com elementos
     this.game.physics.arcade.overlap(
-      this.jogador,
-      this.veiculos,
-      this.colideComVeiculos,
+      this.player,
+      this.vehicles,
+      this.collidesWithVehicle,
       null,
       this
     );
-    this.game.physics.arcade.collide(this.jogador, this.arbustos);
+    this.game.physics.arcade.collide(this.player, this.bushes);
 
     this.game.physics.arcade.overlap(
-      this.jogador,
-      this.tesouro,
-      this.colideComTesouro,
+      this.player,
+      this.treasury,
+      this.collidesWithTreasury,
       null,
       this
     );
 
-    this.atualizarVeiculos();
-    this.verificarTecla();
+    this.updateVehicles();
+    this.checkKey();
   },
-  criarCenario: function () {
+  createScene: function () {
+    var referenceRandom = 64;
+    var referenceHeight = 96;
+    var referenceConstruction = 32;
     this.game.stage.backgroundColor = "#82bb65";
 
-    var quantidade = Math.floor((this.game.height - 96) / 64);
-    this.pistas = [64];
+    var amount = Math.floor(
+      (this.game.height - referenceHeight) / referenceRandom
+    );
+    this.road = [referenceRandom];
 
-    for (var i = 0; i < quantidade - 1; i++) {
-      if (this.pistas[i] > this.game.height - 96 || this.pistas[i] < 64) {
+    for (var i = 0; i < amount - 1; i++) {
+      if (
+        this.road[i] > this.game.height - referenceHeight ||
+        this.road[i] < referenceRandom
+      ) {
         break;
       }
 
-      var espaco = this.game.rnd.integerInRange(1, 2);
+      var space = this.game.rnd.integerInRange(1, 2);
 
       this.game.add.tileSprite(
         0,
-        this.pistas[i],
+        this.road[i],
         this.game.width,
-        64,
-        "estrada",
+        referenceRandom,
+        "road",
         0
       );
 
-      this.pistas.push(this.pistas[i] + 64 + espaco * 32);
+      this.road.push(
+        this.road[i] + referenceRandom + space * referenceConstruction
+      );
     }
   },
-  criarTesouro: function () {
-    this.tesouro = this.game.add.sprite(
+  createTreasury: function () {
+    this.treasury = this.game.add.sprite(
       this.game.world.centerX,
       this.game.world.height - 64,
-      "tesouro"
+      "treasure"
     );
-    this.tesouro.anchor.setTo(0.5, 0);
+    this.treasury.anchor.setTo(0.5, 0);
 
-    this.game.physics.arcade.enable(this.tesouro);
-    this.tesouro.enableBody = true;
+    this.game.physics.arcade.enable(this.treasury);
+    this.treasury.enableBody = true;
   },
-  criarArbustos: function () {
-    this.arbustos = this.game.add.group();
+  createBushes: function () {
+    this.bushes = this.game.add.group();
 
-    this.game.physics.arcade.enable(this.arbustos);
-    this.arbustos.enableBody = true;
+    this.game.physics.arcade.enable(this.bushes);
+    this.bushes.enableBody = true;
 
-    quantidade = Math.floor(this.game.width / 32);
+    var amount = Math.floor(this.game.width / 32);
 
-    for (var y = 0; y < this.pistas.length - 1; y++) {
-      for (var x = 0; x < quantidade; x++) {
+    for (var y = 0; y < this.road.length - 1; y++) {
+      for (var x = 0; x < amount; x++) {
         if (this.game.rnd.integerInRange(0, 10) > 5) {
           continue;
         }
 
-        var arbusto = this.arbustos.create(
-          x * 32,
-          this.pistas[y] + 64,
-          "arbusto"
-        );
+        var arbusto = this.bushes.create(x * 32, this.road[y] + 64, "bush");
 
         arbusto.body.setSize(26, 26, 3, 3);
 
@@ -106,79 +112,79 @@ Play.prototype = {
       }
     }
   },
-  criarJogador: function () {
-    this.jogador = this.game.add.sprite(this.game.world.centerX, 16, "jogador");
+  createPlayer: function () {
+    this.player = this.game.add.sprite(this.game.world.centerX, 16, "player");
 
-    this.jogador.animations.add("paraCima", [0, 1, 2, 1]);
-    this.jogador.animations.add("paraBaixo", [6, 7, 8, 7]);
-    this.jogador.animations.add("paraEsquerda", [9, 10, 11, 10]);
-    this.jogador.animations.add("paraDireita", [3, 4, 5, 4]);
+    this.player.animations.add("up", [0, 1, 2, 1]);
+    this.player.animations.add("down", [6, 7, 8, 7]);
+    this.player.animations.add("left", [9, 10, 11, 10]);
+    this.player.animations.add("right", [3, 4, 5, 4]);
 
-    this.game.physics.arcade.enable(this.jogador);
-    this.jogador.enableBody = true;
+    this.game.physics.arcade.enable(this.player);
+    this.player.enableBody = true;
 
-    this.jogador.body.setSize(18, 28, 7, 10);
+    this.player.body.setSize(18, 28, 7, 10);
 
-    this.jogador.body.collideWorldBounds = true;
+    this.player.body.collideWorldBounds = true;
 
-    this.jogador.animations.play("paraBaixo", 7, true);
+    this.player.animations.play("down", 7, true);
   },
-  criarVeiculos: function () {
-    this.veiculos = this.game.add.group();
+  createVehicle: function () {
+    this.vehicles = this.game.add.group();
 
-    this.game.physics.arcade.enable(this.veiculos);
-    this.veiculos.enableBody = true;
+    this.game.physics.arcade.enable(this.vehicles);
+    this.vehicles.enableBody = true;
 
-    var tipoVeiculo = ["pickup_marrom", "caminhonete_marrom"];
-    var direcoes = ["Direita", "Esquerda"];
+    var vehicleType = ["brownPickupVehicle", "brownPickupTruck"];
+    direction = ["Right", "Left"];
 
-    for (var i = 0; i < this.pistas.length - 1; i++) {
+    for (var i = 0; i < this.road.length - 1; i++) {
       var tipo =
-        tipoVeiculo[this.game.rnd.integerInRange(0, tipoVeiculo.length - 1)];
+        vehicleType[this.game.rnd.integerInRange(0, vehicleType.length - 1)];
 
-      var veiculo = this.veiculos.create(32, this.pistas[i] - 16, tipo);
+      var vehicle = this.vehicles.create(32, this.road[i] - 16, tipo);
 
-      if (tipo === "pickup_marrom") {
-        veiculo.body.setSize(105, 43, 0, 19);
+      if (tipo === "brownPickupVehicle") {
+        vehicle.body.setSize(105, 43, 0, 19);
       } else {
-        veiculo.body.setSize(130, 43, 2, 19);
+        vehicle.body.setSize(130, 43, 2, 19);
       }
 
-      veiculo.animations.add("irDireita", [0, 1]);
-      veiculo.animations.add("irEsquerda", [2, 3]);
+      vehicle.animations.add("goRight", [0, 1]);
+      vehicle.animations.add("goLeft", [2, 3]);
 
-      veiculo.direcao =
-        direcoes[this.game.rnd.integerInRange(0, direcoes.length - 1)];
+      vehicle.direction =
+        direction[this.game.rnd.integerInRange(0, direction.length - 1)];
 
-      if (veiculo.direcao === "Direita") {
-        veiculo.body.velocity.x = this.game.rnd.integerInRange(80, 150);
+      if (vehicle.direction === "Right") {
+        vehicle.body.velocity.x = this.game.rnd.integerInRange(80, 150);
       } else {
-        veiculo.body.velocity.x = -this.game.rnd.integerInRange(80, 150);
+        vehicle.body.velocity.x = -this.game.rnd.integerInRange(80, 150);
       }
 
-      veiculo.animations.play(
-        "ir" + veiculo.direcao,
+      vehicle.animations.play(
+        "go" + vehicle.direction,
         this.game.rnd.integerInRange(4, 7),
         true
       );
     }
   },
-  atualizarVeiculos: function () {
-    this.veiculos.forEach(function (veiculo) {
-      if (veiculo.direcao === "Direita" && veiculo.x > this.game.width) {
-        veiculo.x = -veiculo.width;
-        veiculo.body.velocity.x = this.game.rnd.integerInRange(80, 150);
-      } else if (veiculo.direcao === "Esquerda" && veiculo.x < -veiculo.width) {
-        veiculo.x = this.game.width;
-        veiculo.body.velocity.x = -this.game.rnd.integerInRange(80, 150);
+  updateVehicles: function () {
+    this.vehicles.forEach(function (vehicle) {
+      if (vehicle.direction === "Right" && vehicle.x > this.game.width) {
+        vehicle.x = -vehicle.width;
+        vehicle.body.velocity.x = this.game.rnd.integerInRange(80, 150);
+      } else if (vehicle.direction === "Left" && vehicle.x < -vehicle.width) {
+        vehicle.x = this.game.width;
+        vehicle.body.velocity.x = -this.game.rnd.integerInRange(80, 150);
       }
     }, this);
   },
-  criarBotoes: function () {
-    var botao_esquerda = this.game.add.button(
+  createButtons: function () {
+    var buttonLeft = this.game.add.button(
       0,
       this.game.height - 64,
-      "botoes_jogo",
+      "buttonsGame",
       null,
       this,
       4,
@@ -186,14 +192,14 @@ Play.prototype = {
       4
     );
 
-    botao_esquerda.name = "esquerda";
-    botao_esquerda.events.onInputDown.add(this.botaoPressionado, this);
-    botao_esquerda.events.onInputUp.add(this.botaoSolto, this);
+    buttonLeft.name = "left";
+    buttonLeft.events.onInputDown.add(this.buttonPressed, this);
+    buttonLeft.events.onInputUp.add(this.buttonLoose, this);
 
-    var botao_direita = this.game.add.button(
+    var buttonRight = this.game.add.button(
       68,
       this.game.height - 64,
-      "botoes_jogo",
+      "buttonsGame",
       null,
       this,
       5,
@@ -201,14 +207,14 @@ Play.prototype = {
       5
     );
 
-    botao_direita.name = "direita";
-    botao_direita.events.onInputDown.add(this.botaoPressionado, this);
-    botao_direita.events.onInputUp.add(this.botaoSolto, this);
+    buttonRight.name = "right";
+    buttonRight.events.onInputDown.add(this.buttonPressed, this);
+    buttonRight.events.onInputUp.add(this.buttonLoose, this);
 
-    var botao_cima = this.game.add.button(
+    var buttonUp = this.game.add.button(
       this.game.width - 128,
       this.game.height - 64,
-      "botoes_jogo",
+      "buttonsGame",
       null,
       this,
       6,
@@ -216,14 +222,14 @@ Play.prototype = {
       6
     );
 
-    botao_cima.name = "cima";
-    botao_cima.events.onInputDown.add(this.botaoPressionado, this);
-    botao_cima.events.onInputUp.add(this.botaoSolto, this);
+    buttonUp.name = "up";
+    buttonUp.events.onInputDown.add(this.buttonPressed, this);
+    buttonUp.events.onInputUp.add(this.buttonLoose, this);
 
-    var botao_baixo = this.game.add.button(
+    var buttonDown = this.game.add.button(
       this.game.width - 60,
       this.game.height - 64,
-      "botoes_jogo",
+      "buttonsGame",
       null,
       this,
       7,
@@ -231,56 +237,56 @@ Play.prototype = {
       7
     );
 
-    botao_baixo.name = "baixo";
-    botao_baixo.events.onInputDown.add(this.botaoPressionado, this);
-    botao_baixo.events.onInputUp.add(this.botaoSolto, this);
+    buttonDown.name = "down";
+    buttonDown.events.onInputDown.add(this.buttonPressed, this);
+    buttonDown.events.onInputUp.add(this.buttonLoose, this);
   },
-  botaoPressionado: function (botao) {
-    this.botaoAtivo = botao.name;
+  buttonPressed: function (button) {
+    this.buttonActive = button.name;
   },
-  botaoSolto: function () {
-    this.botaoAtivo = "";
+  buttonLoose: function () {
+    this.buttonActive = "";
   },
-  verificarTecla: function () {
-    if (this.teclado.left.isDown || this.botaoAtivo == "esquerda") {
-      this.jogador.body.velocity.x = -80;
-      this.jogador.body.velocity.y = 0;
-      this.jogador.animations.play("paraEsquerda", 7, true);
-    } else if (this.teclado.left.isDown || this.botaoAtivo == "direita") {
-      this.jogador.body.velocity.x = 80;
-      this.jogador.body.velocity.y = 0;
-      this.jogador.animations.play("paraDireita", 7, true);
-    } else if (this.teclado.left.isDown || this.botaoAtivo == "cima") {
-      this.jogador.body.velocity.x = 0;
-      this.jogador.body.velocity.y = -80;
-      this.jogador.animations.play("paraCima", 7, true);
-    } else if (this.teclado.left.isDown || this.botaoAtivo == "baixo") {
-      this.jogador.body.velocity.x = 0;
-      this.jogador.body.velocity.y = 80;
-      this.jogador.animations.play("paraBaixo", 7, true);
+  checkKey: function () {
+    if (this.keyboard.left.isDown || this.buttonActive == "left") {
+      this.player.body.velocity.x = -80;
+      this.player.body.velocity.y = 0;
+      this.player.animations.play("left", 7, true);
+    } else if (this.keyboard.left.isDown || this.buttonActive == "right") {
+      this.player.body.velocity.x = 80;
+      this.player.body.velocity.y = 0;
+      this.player.animations.play("right", 7, true);
+    } else if (this.keyboard.left.isDown || this.buttonActive == "up") {
+      this.player.body.velocity.x = 0;
+      this.player.body.velocity.y = -80;
+      this.player.animations.play("up", 7, true);
+    } else if (this.keyboard.left.isDown || this.buttonActive == "down") {
+      this.player.body.velocity.x = 0;
+      this.player.body.velocity.y = 80;
+      this.player.animations.play("down", 7, true);
     } else {
-      this.jogador.body.velocity.x = 0;
-      this.jogador.body.velocity.y = 0;
+      this.player.body.velocity.x = 0;
+      this.player.body.velocity.y = 0;
     }
   },
-  colideComVeiculos: function () {
+  collidesWithVehicle: function () {
     if ("vibrate" in window.navigator) {
       window.navigator.vibrate(200);
     }
 
-    var som = this.game.add.audio("fimjogo");
-    som.play();
+    var sound = this.game.add.audio("gameEnd");
+    sound.play();
 
     //setTimeout(function () {
-    this.game.state.start("GameOver", true, false, this.pontos);
+    this.game.state.start("GameOver", true, false, this.points);
     //}, 1000);
   },
-  colideComTesouro: function () {
-    this.pontos++;
+  collidesWithTreasury: function () {
+    this.points++;
 
-    var som = this.game.add.audio("pontuou");
-    som.play();
+    var sound = this.game.add.audio("gamePoints");
+    sound.play();
 
-    this.game.state.start("Score", true, false, this.pontos);
+    this.game.state.start("Score", true, false, this.points);
   },
 };

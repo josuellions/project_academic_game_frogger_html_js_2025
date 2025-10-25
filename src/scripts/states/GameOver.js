@@ -1,60 +1,56 @@
 var GameOver = function (game) {};
 
 GameOver.prototype = {
-  init: function (pontos) {
-    this.pontos = pontos != null && pontos != undefined ? pontos : 0;
+  init: function (points) {
+    this.points = points != null && points != undefined ? points : 0;
   },
   create: function () {
     this.game.stage.backgroundColor = "#000";
 
-    this.fundo = this.game.add.image(
+    this.background = this.game.add.image(
       this.game.world.centerX,
       this.game.world.height,
-      "background_game_over"
+      "backgroundGameOver"
     );
-    this.fundo.anchor.setTo(0.5, 1);
+    this.background.anchor.setTo(0.5, 1);
 
-    this.titulo = this.game.add.sprite(
-      this.game.world.centerX,
-      30,
-      "game_over"
-    );
-    this.titulo.anchor.setTo(0.5, 0);
+    this.title = this.game.add.sprite(this.game.world.centerX, 30, "gameOver");
+    this.title.anchor.setTo(0.5, 0);
 
-    this.botao_continuar = this.game.add.button(
+    this.buttonContinue = this.game.add.button(
       this.game.world.centerX,
       this.game.height - 60,
       "buttonPlay",
-      this.acaoBotoaContinuar,
+      this.buttonContinueAction,
       this,
       1,
       0,
       1
     );
 
-    this.botao_continuar.anchor.setTo(0.5, 0.5);
+    this.buttonContinue.anchor.setTo(0.5, 0.5);
 
-    var estilo = {
+    var style = {
       font: "bold 30px Arial",
       fill: "#fff",
       boundsAlignH: "center",
       boundsAlignV: "middle",
     };
 
-    var texto = this.game.add.text(
+    var text = this.game.add.text(
       0,
       this.game.world.centerY,
-      this.pontos + " Pontos!",
-      estilo
+      this.points + " points!",
+      style
     );
 
-    texto.setShadow(3, 3, "rgba(0,0,0,0.5)", 2);
-    texto.setTextBounds(0, 0, 320, 10);
-    //texto.setTextBounds(0, this.game.world.centerY, this.game.world.width, 50);
-    //texto.anchor.setTo(-0.7, 6);
+    text.setShadow(3, 3, "rgba(0,0,0,0.5)", 2);
+    text.setTextBounds(0, 0, 320, 10);
+    //text.setTextBounds(0, this.game.world.centerY, this.game.world.width, 50);
+    //text.anchor.setTo(-0.7, 6);
   },
-  acaoBotoaContinuar: function () {
-    this.pontos = 0;
-    this.game.state.start("Play", true, false, this.pontos);
+  buttonContinueAction: function () {
+    this.points = 0;
+    this.game.state.start("Play", true, false, this.points);
   },
 };
