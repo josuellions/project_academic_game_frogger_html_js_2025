@@ -214,7 +214,7 @@ Play.prototype = {
     buttonRight.events.onInputUp.add(this.buttonLoose, this);
 
     var buttonUp = this.game.add.button(
-      this.game.width - 138,
+      this.game.width - 142,
       this.game.height - height,
       "buttonsGame",
       null,
@@ -229,7 +229,7 @@ Play.prototype = {
     buttonUp.events.onInputUp.add(this.buttonLoose, this);
 
     var buttonDown = this.game.add.button(
-      this.game.width - 62,
+      this.game.width - 68,
       this.game.height - height,
       "buttonsGame",
       null,
@@ -274,15 +274,19 @@ Play.prototype = {
       },
     };
 
-    const actionKeyboard = keys.find((key) => this.keyboard[key].isDown);
+    const actionKeyboard =
+      this?.keyboard && keys.find((key) => this.keyboard[key].isDown);
 
     const pressKeyMove = actionKeyboard || this.buttonActive || "default";
 
     const move = movePlayer[pressKeyMove.toLowerCase()];
 
-    this.player.animations.play(pressKeyMove.toLowerCase(), 7, true);
     this.player.body.velocity.x = move.velocityX;
     this.player.body.velocity.y = move.velocityY;
+
+    if (move.velocityX !== 0 || move.velocityY !== 0) {
+      this.player.animations.play(pressKeyMove.toLowerCase(), 7, true);
+    }
   },
   collidesWithVehicle: function () {
     // if ("vibrate" in window.navigator) {

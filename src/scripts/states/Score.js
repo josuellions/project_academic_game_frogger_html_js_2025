@@ -1,8 +1,8 @@
 var Score = function (game) {};
 
 Score.prototype = {
-  init: function (pontos) {
-    this.pontos = pontos != null && pontos != undefined ? pontos : 0;
+  init: function (points) {
+    this.points = points != null && points != undefined ? points : 0;
   },
   create: function () {
     this.game.stage.backgroundColor = "#0099cc";
@@ -16,18 +16,18 @@ Score.prototype = {
     this.titulo = this.game.add.sprite(this.game.world.centerX, 30, "score");
     this.titulo.anchor.setTo(0.5, 0);
 
-    this.botao_continuar = this.game.add.button(
+    this.buttonContinue = this.game.add.button(
       this.game.world.centerX,
       this.game.height - 60,
       "buttonPlay",
-      this.acaoBotoaContinuar,
+      this.actionButtonContinue,
       this,
       1,
       0,
       1
     );
 
-    this.botao_continuar.anchor.setTo(0.5, 0.5);
+    this.buttonContinue.anchor.setTo(0.5, 0.5);
 
     var estilo = {
       font: "bold 30px Arial",
@@ -40,7 +40,7 @@ Score.prototype = {
     var texto = this.game.add.text(
       0,
       this.game.world.centerY,
-      this.pontos + textPoints,
+      this.points + textPoints,
       estilo
     );
 
@@ -49,7 +49,7 @@ Score.prototype = {
     //texto.setTextBounds(0, this.game.world.centerY, this.game.world.width, 50);
     //texto.anchor.setTo(-0.7, 6);
   },
-  acaoBotoaContinuar: function () {
-    this.game.state.start("Play", true, false, this.pontos);
+  actionButtonContinue: function () {
+    this.game.state.start("Play", true, false, this.points);
   },
 };
